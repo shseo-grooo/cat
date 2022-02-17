@@ -22,7 +22,7 @@ func main() {
 		mode := c.Request.Header["X-Mode"]
 		mode = append(mode, "")
 
-		c.JSON(http.StatusOK, gin.H{"message": fmt.Sprintf("[Cat Server v4 - %s] %s", mode[0], meow[rand.Intn(len(meow))])})
+		c.JSON(http.StatusOK, gin.H{"message": fmt.Sprintf("[Cat Server v5.2 - %s] %s", mode[0], meow[rand.Intn(len(meow))])})
 	})
 
 	r.Run()
