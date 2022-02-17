@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
 	"net/http"
 	"time"
@@ -15,11 +16,13 @@ func main() {
 	r := gin.Default()
 
 	r.GET("/meow", func(c *gin.Context) {
+		c.Header("Access-Control-Allow-Origin", "*")
+		c.Header("Access-Control-Allow-Methods", "GET")
 
 		mode := c.Request.Header["X-Mode"]
 		mode = append(mode, "")
 
-		c.String(http.StatusOK, "[Cat Server v4 - %s] %s", mode[0], meow[rand.Intn(len(meow))])
+		c.JSON(http.StatusOK, gin.H{"message": fmt.Sprintf("[Cat Server v4 - %s] %s", mode[0], meow[rand.Intn(len(meow))])})
 	})
 
 	r.Run()
