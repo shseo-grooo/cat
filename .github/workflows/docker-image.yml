@@ -1,0 +1,40 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag shseogrooo/cat:${{ github.event.head_commit.message }}
+    - name: Login to DockerHub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Push the Docker image
+      run: docker push shseogrooo/cat:${{ github.event.head_commit.message }}
+
+    - name: Clone Github Repo Action
+      uses: GuillaumeFalourd/clone-github-repo-action@v1
+      with:
+        owner: shseo-grooo
+        repository: gitops
+        access-token: ${{ secrets.TOKEN }}
+
+    - name: Run a multi-line script
+      run: |
+        cd gitops/animal
+        TAG=${{ github.event.head_commit.message }}
+        sudo yq e -i '.catApp.image = '"\"shseogrooo/cat:${TAG}\""'' values.yaml
+        sudo git commit -am "cat ${TAG}"
+        sudo git push
