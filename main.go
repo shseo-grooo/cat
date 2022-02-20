@@ -20,8 +20,8 @@ func main() {
 		c.Header("Access-Control-Allow-Methods", "GET")
 
 		mode := append(c.Request.Header["X-Mode"], "ACTIVE")[0]
-
-		c.JSON(http.StatusOK, gin.H{"message": fmt.Sprintf("[Cat Server v6.5 - %s] %s", mode, meow[rand.Intn(len(meow))])})
+		url := c.Request.Host + c.Request.URL.Path
+		c.JSON(http.StatusOK, gin.H{"message": fmt.Sprintf("[Cat Server v6.6 - %s] %s from %s", mode, meow[rand.Intn(len(meow))], url)})
 	})
 
 	r.Run()
