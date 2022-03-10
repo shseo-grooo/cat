@@ -21,7 +21,7 @@ func main() {
 
 		mode := append(c.Request.Header["X-Mode"], "ACTIVE")[0]
 		url := c.Request.Host + c.Request.URL.Path
-		c.JSON(http.StatusOK, gin.H{"message": fmt.Sprintf("[Cat Server v6.7 - %s from %s] %s", mode, url, meow[rand.Intn(len(meow))])})
+		c.JSON(http.StatusOK, gin.H{"message": fmt.Sprintf("[Cat Server v6.8 - %s from %s] %s", mode, url, meow[rand.Intn(len(meow))])})
 	})
 
 	r.Run()
